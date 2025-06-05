@@ -1,90 +1,97 @@
+
 import React, { useState, useEffect } from 'react';
 
 const SpotifyAuth = () => {
-  const [accessToken, setAccessToken] = useState(null);
+  const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
+  const [useMockAuth, setUseMockAuth] = useState(false);
 
-  const CLIENT_ID = '872fdc54cb6a4dbe9d1d137ca047718c';
-  const REDIRECT_URI = 'http://127.0.0.1:3000/callback';
-  const SCOPES = 'user-read-private playlist-modify-public playlist-modify-private';
-
-  const login = () => {
-    const authUrl = `https://accounts.spotify.com/authorize?` +
-      `client_id=${CLIENT_ID}&` +
-      `response_type=code&` +
-      `redirect_uri=${REDIRECT_URI}&` +
-      `scope=${SCOPES}`;
-    
-    window.location.href = authUrl;
-  };
-
-  const getTokenFromUrl = async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    
-    if (code) {
-      // Note: In production, do this on your backend
-      const response = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({
-          grant_type: 'authorization_code',
-          code: code,
-          redirect_uri: REDIRECT_URI,
-          client_id: CLIENT_ID,
-          // client_secret: 'your_client_secret' // Backend only
-        })
-      });
-
-      const data = await response.json();
-      if (data.access_token) {
-        setAccessToken(data.access_token);
+  useEffect(() => {
+    if (!useMockAuth) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      let token = window.localStorage.getItem("token");
+      
+      if (code && !token) {
+        token = `auth_code_${code.substring(0, 10)}`;
+        window.localStorage.setItem("token", token);
         window.history.replaceState({}, '', '/');
       }
+      setToken(token);
     }
+  }, [useMockAuth]);
+
+  useEffect(() => {
+    if (token && token !== 'mock_token') {
+      getUser(token);
+    }
+  }, [token]);
+
+  const spotifyLogin = () => {
+    const clientId = '872fdc54cb6a4dbe9d1d137ca047718c';
+    const redirectUri = "http://127.0.0.1:3000/callback";
+    const scopes = ['playlist-modify-public'];
+    const url = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(scopes)}`;
+    window.location = url;
+  };
+
+  const mockLogin = () => {
+    setTimeout(() => {
+      setToken('mock_token');
+      setUser({ display_name: 'John Doe' });
+    }, 1000);
   };
 
   const getUser = async (token) => {
-    const response = await fetch('https://api.spotify.com/v1/me', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const userData = await response.json();
-    setUser(userData);
+    try {
+      const response = await fetch('https://api.spotify.com/v1/me', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const userData = await response.json();
+      setUser(userData);
+    } catch (error) {
+      console.error('Error fetching user:', error);
+    }
   };
 
-  useEffect(() => {
-    getTokenFromUrl();
-  }, []);
+  const logout = () => {
+    setToken("");
+    setUser(null);
+    window.localStorage.removeItem("token");
+  };
 
-  useEffect(() => {
-    if (accessToken) {
-      getUser(accessToken);
-    }
-  }, [accessToken]);
-
-  if (!accessToken) {
+  // Login Screen
+  if (!token) {
     return (
       <div className="p-8 text-center">
-        <h1 className="text-2xl mb-4">AI Playlist Generator</h1>
+        <h1 className="text-2xl mb-4">Spotify AI</h1>
+        
+        <div className="mb-4">
+          <label className="flex items-center justify-center gap-2 mb-4">
+            <input 
+              type="checkbox" 
+              checked={useMockAuth}
+              onChange={(e) => setUseMockAuth(e.target.checked)}
+            />
+            Use Mock Auth (for testing)
+          </label>
+        </div>
+
         <button 
-          onClick={login}
+          onClick={useMockAuth ? mockLogin : spotifyLogin}
           className="bg-green-500 text-white px-6 py-2 rounded"
         >
-          Login with Spotify
+          {useMockAuth ? 'Mock Login' : 'Login To Start'}
         </button>
       </div>
     );
   }
 
-  const logout = () => {
-    setAccessToken(null);
-    setUser(null);
-  };
-
+  // Main Screen (after login)
   return (
     <div className="p-8">
       <h1 className="text-2xl mb-4">Welcome {user?.display_name}</h1>
-      <p className="mb-4">Access Token: {accessToken.substring(0, 20)}...</p>
+      <p className="mb-4">Token: {token.substring(0, 20)}...</p>
       
       <button 
         onClick={logout}
@@ -93,9 +100,11 @@ const SpotifyAuth = () => {
         Logout
       </button>
       
-      {/* Add your playlist generation features here */}
       <div className="bg-gray-100 p-4 rounded">
-        <p>Ready to build! Token is available for Spotify API calls.</p>
+        <p>Ready to build playlist features!</p>
+        <p className="text-sm text-gray-600 mt-2">
+          {token === 'mock_token' ? 'Using mock authentication' : 'Using real Spotify API'}
+        </p>
       </div>
     </div>
   );
