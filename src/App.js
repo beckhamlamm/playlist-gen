@@ -13,6 +13,7 @@ const SpotifyAuth = () => {
       let token = window.localStorage.getItem("token");
       
       if (code && !token) {
+        // For now, just set a placeholder - you'll need backend for real token exchange
         token = `auth_code_${code.substring(0, 10)}`;
         window.localStorage.setItem("token", token);
         window.history.replaceState({}, '', '/');
@@ -22,8 +23,11 @@ const SpotifyAuth = () => {
   }, [useMockAuth]);
 
   useEffect(() => {
-    if (token && token !== 'mock_token') {
+    if (token && token !== 'mock_token' && !token.startsWith('auth_code_')) {
       getUser(token);
+    } else if (token && token.startsWith('auth_code_')) {
+      // For auth code tokens, set a placeholder user
+      setUser({ display_name: 'Spotify User' });
     }
   }, [token]);
 
