@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 
 const SpotifyAuth = () => {
@@ -24,10 +23,11 @@ const SpotifyAuth = () => {
 
   useEffect(() => {
     if (token && token !== 'mock_token' && !token.startsWith('auth_code_')) {
-      getUser(token);
+      getUserId(token); // Use getUserId instead of getUser
     } else if (token && token.startsWith('auth_code_')) {
-      // For auth code tokens, set a placeholder user
-      setUser({ display_name: 'Spotify User' });
+      // For auth code tokens, set a placeholder user and user_id
+      setUser({ display_name: 'Spotify User', id: 'placeholder_user_id' });
+      window.localStorage.setItem("user_id", 'placeholder_user_id');
     }
   }, [token]);
 
@@ -46,6 +46,22 @@ const SpotifyAuth = () => {
     }, 1000);
   };
 
+  const getUserId = async (access_token) => {
+    const response = await fetch('https://api.spotify.com/v1/me', {
+      headers: {
+        'Authorization': `Bearer ${access_token}`,
+      },
+    });
+    const res = await response.json();
+    if(res.error){
+      setToken("")
+      window.localStorage.removeItem("token")
+      return;
+    }
+    window.localStorage.setItem("user_id", res.id)
+    setUser(res); // Also set the full user data
+  };
+
   const getUser = async (token) => {
     try {
       const response = await fetch('https://api.spotify.com/v1/me', {
@@ -62,6 +78,7 @@ const SpotifyAuth = () => {
     setToken("");
     setUser(null);
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("user_id");
   };
 
   // Login Screen
@@ -91,11 +108,21 @@ const SpotifyAuth = () => {
     );
   }
 
-  // Main Screen (after login)
+  // ChatGPT Component placeholder
+  const ChatGPT = () => (
+    <div className="bg-blue-100 p-4 rounded mb-4">
+      <h2 className="text-xl font-semibold mb-2">ChatGPT Component</h2>
+      <p>This is where your ChatGPT playlist generation will go!</p>
+      <p className="text-sm text-gray-600 mt-2">
+        User ID stored: {window.localStorage.getItem("user_id")}
+      </p>
+    </div>
+  );
+
+  // Main Screen (after login) - Now shows ChatGPT component
   return (
     <div className="p-8">
       <h1 className="text-2xl mb-4">Welcome {user?.display_name}</h1>
-      <p className="mb-4">Token: {token.substring(0, 20)}...</p>
       
       <button 
         onClick={logout}
@@ -104,12 +131,7 @@ const SpotifyAuth = () => {
         Logout
       </button>
       
-      <div className="bg-gray-100 p-4 rounded">
-        <p>Ready to build playlist features!</p>
-        <p className="text-sm text-gray-600 mt-2">
-          {token === 'mock_token' ? 'Using mock authentication' : 'Using real Spotify API'}
-        </p>
-      </div>
+      <ChatGPT />
     </div>
   );
 };
