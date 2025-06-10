@@ -140,3 +140,153 @@ body {
 .clear-data-button:hover {
   color: #374151;
 }
+
+/* WildCard Component Styles */
+.spotifyHeader {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.d-flex {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.w500 {
+    width: 500px;
+}
+
+.inputField {
+    padding: 10px;
+    border: 1px solid #282828;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+button {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+button:hover {
+    background-color: #1ed760;
+}
+
+/* Playlist Styles */
+.playlist-container {
+    margin-top: 30px;
+    background: #121212;
+    border-radius: 8px;
+    padding: 20px;
+    color: white;
+}
+
+.playlist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.playlist-header h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.create-playlist-button {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.create-playlist-button:hover {
+    background-color: #1ed760;
+}
+
+.playlist-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+}
+
+.playlist-table th {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #282828;
+    color: #b3b3b3;
+    font-weight: normal;
+}
+
+.playlist-table td {
+    padding: 10px;
+    border-bottom: 1px solid #282828;
+}
+
+.playlist-table tr:hover {
+    background-color: #282828;
+}
+
+.artist-name {
+    color: #b3b3b3;
+    font-size: 14px;
+}
+
+/* Loading Bar Styles */
+.loading-container {
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+}
+
+.loading-bar {
+    width: 100%;
+    height: 4px;
+    background-color: #282828;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.loading-progress {
+    width: 30%;
+    height: 100%;
+    background-color: #1DB954;
+    animation: loading 1s infinite linear;
+}
+
+@keyframes loading {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(400%);
+    }
+}
+
+.error-message {
+    color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
