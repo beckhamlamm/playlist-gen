@@ -3,13 +3,17 @@ import './App.css';
 import ChatGPT from './components/ChatGPT';
 
 const App = () => {
+  // State variables
   const [token, setToken] = useState("");
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  
+  // Spotify credentials
   const CLIENT_ID = '872fdc54cb6a4dbe9d1d137ca047718c';
   const REDIRECT_URI = "http://127.0.0.1:3000/callback";
 
   useEffect(() => {
+    // Initialize auth: Checks URL for Spotify code or existing token
     const initializeAuth = async () => {
       try {
         const isCallback = window.location.pathname === '/callback';
@@ -33,6 +37,7 @@ const App = () => {
     initializeAuth();
   }, []);
 
+  // Exchange Spotify auth code for access token
   const getAccessToken = async (code) => {
     try {
       const verifier = localStorage.getItem('verifier');
@@ -58,7 +63,6 @@ const App = () => {
       window.localStorage.setItem("token", access_token);
       setToken(access_token);
       
-      // Instead of redirecting immediately, wait for token to be set
       await new Promise(resolve => setTimeout(resolve, 100));
       window.location.href = '/';
     } catch (error) {
@@ -67,6 +71,8 @@ const App = () => {
     }
   };
 
+  // PKCE authentication helpers
+  // Creates SHA-256 hash of verifier for PKCE auth
   const generateCodeChallenge = async (verifier) => {
     const encoder = new TextEncoder();
     const data = encoder.encode(verifier);
@@ -78,12 +84,14 @@ const App = () => {
       .replace(/\//g, '_');
   };
 
+  // Generates random string for PKCE verification
   const generateCodeVerifier = () => {
     const array = new Uint32Array(56/2);
     window.crypto.getRandomValues(array);
     return Array.from(array, dec => ('0' + dec.toString(16)).substr(-2)).join('');
   };
 
+  // Fetch Spotify user profile using access token
   const getUserId = async (access_token) => {
     try {
       const response = await fetch('https://api.spotify.com/v1/me', {
@@ -111,6 +119,7 @@ const App = () => {
     }
   };
 
+  // Start Spotify auth flow with PKCE security
   const spotifyLogin = async () => {
     try {
       const verifier = generateCodeVerifier();
@@ -132,6 +141,7 @@ const App = () => {
     }
   };
 
+  // Clear all auth data and reset state
   const logout = () => {
     setToken("");
     setUser(null);
@@ -140,7 +150,7 @@ const App = () => {
     window.localStorage.removeItem("verifier");
   };
 
-  // Show loading state
+  // Loading Screen
   if (isLoading) {
     return (
       <div className="p-8 text-center">
