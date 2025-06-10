@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #root {
   max-width: 100%;
   margin: 0;
@@ -143,6 +144,39 @@
 }
 
 @keyframes logo-spin {
+=======
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+>>>>>>> 36148cbad531189d95426c42af2eccb09f971f99
   from {
     transform: rotate(0deg);
   }
@@ -151,6 +185,7 @@
   }
 }
 
+<<<<<<< HEAD
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
@@ -163,4 +198,258 @@
 
 .read-the-docs {
   color: #888;
+=======
+/* Base styles */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header styles */
+.header {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #4a5568;
+  text-decoration: none;
+}
+
+.github-link:hover {
+  color: #000;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Main content styles */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 3rem;
+}
+
+/* Button styles */
+.login-button {
+  background-color: #1db954;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  font-size: 1.125rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-button:hover {
+  background-color: #1ed760;
+}
+
+.logout-button {
+  background-color: #ef4444;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #dc2626;
+}
+
+/* Footer styles */
+.footer {
+  padding: 1rem;
+  text-align: center;
+  border-top: 1px solid #e5e5e5;
+}
+
+.clear-data-button {
+  color: #6b7280;
+  background: none;
+  border: none;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.clear-data-button:hover {
+  color: #374151;
+}
+
+/* WildCard Component Styles */
+.spotifyHeader {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.d-flex {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.w500 {
+    width: 500px;
+}
+
+.inputField {
+    padding: 10px;
+    border: 1px solid #282828;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+button {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+button:hover {
+    background-color: #1ed760;
+}
+
+/* Playlist Styles */
+.playlist-container {
+    margin-top: 30px;
+    background: #121212;
+    border-radius: 8px;
+    padding: 20px;
+    color: white;
+}
+
+.playlist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.playlist-header h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.create-playlist-button {
+    background-color: #1DB954;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.create-playlist-button:hover {
+    background-color: #1ed760;
+}
+
+.playlist-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+}
+
+.playlist-table th {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #282828;
+    color: #b3b3b3;
+    font-weight: normal;
+}
+
+.playlist-table td {
+    padding: 10px;
+    border-bottom: 1px solid #282828;
+}
+
+.playlist-table tr:hover {
+    background-color: #282828;
+}
+
+.artist-name {
+    color: #b3b3b3;
+    font-size: 14px;
+}
+
+/* Loading Bar Styles */
+.loading-container {
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+}
+
+.loading-bar {
+    width: 100%;
+    height: 4px;
+    background-color: #282828;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.loading-progress {
+    width: 30%;
+    height: 100%;
+    background-color: #1DB954;
+    animation: loading 1s infinite linear;
+}
+
+@keyframes loading {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(400%);
+    }
+}
+
+.error-message {
+    color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 14px;
+>>>>>>> 36148cbad531189d95426c42af2eccb09f971f99
 }

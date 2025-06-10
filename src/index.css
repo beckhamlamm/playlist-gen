@@ -1,9 +1,15 @@
+<<<<<<< HEAD
 :root {
+=======
+body {
+  margin: 0;
+>>>>>>> 36148cbad531189d95426c42af2eccb09f971f99
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+<<<<<<< HEAD
   line-height: 1.5;
   font-weight: 400;
 
@@ -58,4 +64,11 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+=======
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+>>>>>>> 36148cbad531189d95426c42af2eccb09f971f99
 }
