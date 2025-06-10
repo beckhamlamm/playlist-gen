@@ -73,7 +73,7 @@ const App = () => {
 
   // PKCE authentication helpers
   // Creates SHA-256 hash of verifier for PKCE auth
-  const generateCodeChallenge = async (verifier) => {
+  const generateCode = async (verifier) => {
     const encoder = new TextEncoder();
     const data = encoder.encode(verifier);
     const digest = await window.crypto.subtle.digest('SHA-256', data);
@@ -123,7 +123,7 @@ const App = () => {
   const spotifyLogin = async () => {
     try {
       const verifier = generateCodeVerifier();
-      const challenge = await generateCodeChallenge(verifier);
+      const challenge = await generateCode(verifier);
       
       localStorage.setItem('verifier', verifier);
       
