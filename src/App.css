@@ -12,13 +12,24 @@ body, input, button, select, textarea {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+body {
+  background: #fff;
+  color: #222;
+}
+
+body.dark {
+  background: #161616;
+  color: #f5f5f5;
+}
+
 .container {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 2rem;
   position: relative;
-  padding-top: 6rem; /* Add space for fixed header */
+  padding-top: 6rem;
+  color: #222;
 }
 
 .header {
@@ -42,14 +53,14 @@ body, input, button, select, textarea {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #333;
+  color: #111;
   text-decoration: none;
   font-size: 1rem;
   justify-self: start;
 }
 
 .github-link:hover {
-  color: #666;
+  color: #1a0dab;
 }
 
 .welcome-message {
@@ -81,8 +92,8 @@ body, input, button, select, textarea {
 
 .title {
   font-size: 3rem;
-  margin-bottom: 2rem;
-  color: #333;
+  margin-bottom: 1.5rem;
+  color: #111;
 }
 
 .login-button {
@@ -103,16 +114,18 @@ body, input, button, select, textarea {
 .logout-button {
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
-  background-color: #333;
-  color: white;
-  border: none;
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #333;
   border-radius: 1.5rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s;
 }
 
 .logout-button:hover {
-  background-color: #555;
+  background-color: #f0f0f0;
+  color: #333;
+  border-color: #333;
 }
 
 .footer {
@@ -239,7 +252,7 @@ body, input, button, select, textarea {
   text-align: center;
 }
 
-/* Keep only layout and error message styles */
+/* Wildcard styles */
 .wildcard-outer {
   min-height: 70vh;
   display: flex;
@@ -272,6 +285,7 @@ body, input, button, select, textarea {
   transition: border 0.2s, box-shadow 0.2s;
   color: #222;
 }
+
 .wildcard-center-content input[type="text"]:focus {
   border: 2px solid #888;
   background: #fff;
@@ -291,6 +305,7 @@ body, input, button, select, textarea {
   transition: border 0.2s, box-shadow 0.2s;
   width: 160px;
 }
+
 .wildcard-center-content select:focus {
   border: 2px solid #888;
   background: #fff;
@@ -309,13 +324,123 @@ body, input, button, select, textarea {
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s;
 }
+
 .wildcard-center-content button:disabled {
   background: #ccc;
   cursor: not-allowed;
 }
+
 .wildcard-center-content button:hover:not(:disabled) {
   background: #444;
   box-shadow: 0 4px 16px rgba(60,60,60,0.15);
+}
+
+.theme-toggle-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 2000;
+  background: transparent;
+  color: #666;
+  border: 1px solid #666;
+  border-radius: 1.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle-btn:hover {
+  background: #f0f0f0;
+  color: #333;
+  border-color: #333;
+}
+
+/* Dark mode overrides */
+body.dark {
+  .container,
+  .main-content,
+  .header,
+  .footer,
+  input,
+  select,
+  button {
+    color: #f5f5f5;
+  }
+
+  .header {
+    background-color: #161616;
+  }
+
+  .github-link {
+    color: white;
+  }
+
+  .github-link:hover {
+    color: #1a0dab;
+  }
+
+  .welcome-message {
+    color: white;
+  }
+
+  .title {
+    color: white;
+  }
+
+  .logout-button {
+    color: #f5f5f5;
+    border-color: #f5f5f5;
+  }
+
+  .logout-button:hover {
+    background-color: #222;
+    color: #f5f5f5;
+    border-color: #f5f5f5;
+  }
+
+  .clear-data-button {
+    color: #f5f5f5;
+    border-color: #f5f5f5;
+  }
+
+  .clear-data-button:hover {
+    background-color: #222;
+    color: #f5f5f5;
+    border-color: #f5f5f5;
+  }
+
+  .theme-toggle-btn {
+    color: #f5f5f5;
+    border-color: #f5f5f5;
+  }
+
+  .theme-toggle-btn:hover {
+    background: #222;
+    color: #f5f5f5;
+    border-color: #f0f0f0;
+  }
+
+  .wildcard-center-content button {
+    background: white;
+    color: #222;
+  }
+
+  .wildcard-center-content button:hover:not(:disabled) {
+    background: #f0f0f0;
+    box-shadow: 0 4px 16px rgba(60,60,60,0.15);
+  }
+
+  .wildcard-center-content button:disabled {
+    opacity: 0.6;
+  }
+
+  .playlist-table tr:hover {
+    background-color: #222;
+  }
 }
 
 @media (max-width: 900px) {

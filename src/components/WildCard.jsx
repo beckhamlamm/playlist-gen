@@ -108,6 +108,7 @@ const WildCard = () => {
     return (
         <div className="wildcard-outer">
             <div className="wildcard-center-content">
+                <h1 className="title">Spotify AI</h1>
                 {error && <p className="error-message">{error}</p>}
                 <div>
                     <input 
