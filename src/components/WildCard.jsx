@@ -106,34 +106,39 @@ const WildCard = () => {
     };
     
     return (
-        <div>
-            <p className='spotifyHeader'>Wild Card - Good Luck</p>
-            {error && <p className="error-message">{error}</p>}
-            <div className='d-flex'> 
-                <input 
-                    type='text' 
-                    className='w500 inputField' 
-                    onChange={(e) => setInput(e.target.value)} 
-                    placeholder='Eg: Game soundtracks similar to "Crypt of the Necrodancer"'
-                    value={input}
-                /> 
-                <select 
-                    className='inputField' 
-                    onChange={(e) => setLength(parseInt(e.target.value))}
-                    value={length}
-                >
-                    <option value={10}>10 songs</option>
-                    <option value={30}>30 songs</option>
-                    <option value={50}>50 songs</option>
-                </select>
-            </div>
-            <div>
+        <div className="wildcard-outer">
+            <div className="wildcard-center-content">
+                {error && <p className="error-message">{error}</p>}
+                <div>
+                    <input 
+                        type='text' 
+                        onChange={(e) => setInput(e.target.value)} 
+                        placeholder='Eg: Game soundtracks similar to "Crypt of the Necrodancer"'
+                        value={input}
+                        onKeyDown={e => { if (e.key === 'Enter') generatePlaylist(); }}
+                    /> 
+                    <select
+                        value={length}
+                        onChange={e => setLength(Number(e.target.value))}
+                        style={{ marginLeft: '0.5rem', borderRadius: '2rem', padding: '0.7rem 2rem', fontSize: '1.1rem', border: '1.5px solid #bbb', background: '#f5f5f5', boxShadow: '0 2px 8px rgba(60,60,60,0.08)', color: '#222', outline: 'none' }}
+                    >
+                        <option value={10}>10 songs</option>
+                        <option value={15}>15 songs</option>
+                        <option value={20}>20 songs</option>
+                        <option value={25}>25 songs</option>
+                        <option value={30}>30 songs</option>
+                        <option value={35}>35 songs</option>
+                        <option value={40}>40 songs</option>
+                        <option value={45}>45 songs</option>
+                        <option value={50}>50 songs</option>
+                    </select>
+                </div>
                 <button 
                     onClick={generatePlaylist}
                     disabled={loading || !input.trim()}
                 >
-                    {loading ? 'Generating...' : 'Generate'} <ImArrowRight2 />
-                </button> 
+                    {loading ? 'Generating...' : 'Generate'}
+                </button>
                 {loading ? <LoadingBar /> : null}
                 {loaded && songs.length > 0 ? <SpotifyPlaylist playlistArray={songs} /> : null}
             </div>
