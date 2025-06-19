@@ -5,23 +5,28 @@ import LoadingBar from './LoadingBar';
 import SpotifyPlaylist from './SpotifyPlaylist';
 
 const WildCard = () => {
-    const [input, setInput] = useState("");
-    const [length, setLength] = useState(10);
-    const [songs, setSongs] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [loaded, setLoaded] = useState(false);
-    const [error, setError] = useState(null);
+    // State variables
+    const [input, setInput] = useState("");  // User input for playlist description
+    const [length, setLength] = useState(10);  // Number of songs to generate
+    const [songs, setSongs] = useState([]);  // Array of generated songs
+    const [loading, setLoading] = useState(false);  // Loading state during API calls
+    const [loaded, setLoaded] = useState(false);  // Indicates if playlist was successfully generated
+    const [error, setError] = useState(null);  // Error message state
 
+    // Generate playlist using OpenAI API
     const generatePlaylist = async () => {
+        // Validate input
         if (!input.trim()) {
             setError("Please enter a description for your playlist");
             return;
         }
 
+        // Reset states before generation
         setLoading(true);
         setLoaded(false);
         setError(null);
 
+        // Prepare OpenAI API request payload
         const payload = {
             temperature: 0.7,
             max_tokens: 3000,
@@ -41,6 +46,7 @@ const WildCard = () => {
         };
 
         try {
+            // Make API request to OpenAI
             console.log("Sending request to OpenAI...");
             const response = await axios({
                 method: "POST",
@@ -52,12 +58,13 @@ const WildCard = () => {
                 }
             });
 
+            // Process OpenAI response
             if (response.status === 200 && response.data.choices && response.data.choices[0]) {
                 const content = response.data.choices[0].message.content;
                 console.log("Raw response from OpenAI:", content);
 
                 try {
-                    // Try to clean the response if it contains any markdown code blocks
+                    // Clean and parse the response
                     let jsonContent = content;
                     if (content.includes('```json')) {
                         jsonContent = content.split('```json')[1].split('```')[0].trim();
@@ -68,8 +75,9 @@ const WildCard = () => {
                     const parsedSongs = JSON.parse(jsonContent);
                     console.log("Parsed songs:", parsedSongs);
 
+                    // Validate response structure
                     if (Array.isArray(parsedSongs)) {
-                        // Validate the structure of each song
+                        // Validate each song has required fields
                         const validSongs = parsedSongs.every(song => 
                             song.id && 
                             song.title && 
@@ -105,12 +113,14 @@ const WildCard = () => {
         }
     };
     
+    // Render component
     return (
         <div className="wildcard-outer">
             <div className="wildcard-center-content">
                 <h1 className="title">Spotify AI</h1>
                 {error && <p className="error-message">{error}</p>}
                 <div>
+                    {/* Playlist description input */}
                     <input 
                         type='text' 
                         onChange={(e) => setInput(e.target.value)} 
@@ -118,6 +128,7 @@ const WildCard = () => {
                         value={input}
                         onKeyDown={e => { if (e.key === 'Enter') generatePlaylist(); }}
                     /> 
+                    {/* Playlist length selector */}
                     <select
                         value={length}
                         onChange={e => setLength(Number(e.target.value))}
@@ -134,12 +145,14 @@ const WildCard = () => {
                         <option value={50}>50 songs</option>
                     </select>
                 </div>
+                {/* Generate playlist button */}
                 <button 
                     onClick={generatePlaylist}
                     disabled={loading || !input.trim()}
                 >
                     {loading ? 'Generating...' : 'Generate'}
                 </button>
+                {/* Loading indicator and playlist display */}
                 {loading ? <LoadingBar /> : null}
                 {loaded && songs.length > 0 ? <SpotifyPlaylist playlistArray={songs} /> : null}
             </div>

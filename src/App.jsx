@@ -3,11 +3,11 @@ import './App.css';
 import ChatGPT from './components/ChatGPT';
 
 const App = () => {
-  // State variables
-  const [token, setToken] = useState("");
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [theme, setTheme] = useState(() => {
+  // State variables 
+  const [token, setToken] = useState("");           // Stores the Spotify access token for API requests
+  const [user, setUser] = useState(null);           // Holds the authenticated Spotify user's profile data
+  const [isLoading, setIsLoading] = useState(true); // Controls loading state during authentication and initialization
+  const [theme, setTheme] = useState(() => {        // Manages the app's theme (light/dark)
     return localStorage.getItem('theme') || 'light';
   });
   
